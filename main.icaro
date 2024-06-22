@@ -1,0 +1,12 @@
+import std.icaro
+
+/*
+see icalang.py to see all keywords and functions
+(if you can read my code)
+i dont have time to show all the code now
+but some day i can show all things
+*\
+
+/* printing hello world! *\
+
+"Hello world!\n" prt
