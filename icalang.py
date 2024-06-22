@@ -411,7 +411,7 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "1.0"
+    version = "1.1"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
         print(f"Usage: {sys.argv[0]} <file>")
