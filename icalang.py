@@ -198,6 +198,7 @@ def compile(code):
                 for itemm in splited:
                     compiler.push(0)
                     stack.append(0)
+                    string_stack.append(itemm)
                     for char in list(itemm):
                         asciinum = ord(char)
                         stack.append(asciinum)
