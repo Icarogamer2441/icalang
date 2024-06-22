@@ -1,0 +1,30 @@
+import std.icaro
+
+/* defines and math system *\
+def
+    n1
+    10
+end
+
+def
+    n2
+    10
+end
+
+add n1 n2 stop
+
+n1 show
+
+sub n1 n2 stop
+
+n1 show
+
+
+/* use spaces if you want to create single word strings *\
+"AAAAAAA \n"
+def
+    string
+    strstack
+end
+
+string prt
