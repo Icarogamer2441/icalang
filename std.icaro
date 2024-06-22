@@ -1,0 +1,10 @@
+fun popstop
+    pop stopwhile
+end
+
+fun prt
+    while
+        0 == if popstop
+        0 != if print
+    end
+end
