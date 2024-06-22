@@ -11,3 +11,7 @@ end
 
 def true 1 end
 def false 0 end
+
+fun dpop
+    pop pop
+end
