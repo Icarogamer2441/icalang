@@ -5,6 +5,7 @@ functions = {}
 stack = []
 string_stack = []
 running_while = [False]
+defines = {}
 
 def compile(code):
     tokens = code.split() or code.split("\t")
@@ -20,12 +21,22 @@ def compile(code):
     in_while = [False]
     while_code = []
     in_import = [False]
+    in_value = [False]
+    defname = [""]
+    in_def = [False]
+    in_add = [False]
+    in_sub = [False]
+    in_def1 = [False]
+    in_def2 = [False]
+    def1 = [""]
+    def2 = [""]
+    selected_def = [""]
 
     while tokenpos <= len(tokens):
         token = tokens[tokenpos - 1]
         tokenpos += 1
 
-        if not in_str[0] and not in_func[0] and not in_if[0] and not in_comment[0] and not in_while[0] and not in_import[0]:
+        if not in_str[0] and not in_func[0] and not in_if[0] and not in_comment[0] and not in_while[0] and not in_import[0] and not in_def[0] and not in_add[0] and not in_sub[0]:
             if token.startswith("\""):
                 in_str[0] = True
                 stack.append(0)
@@ -222,6 +233,26 @@ def compile(code):
                     compiler.msg("\\n")
             elif token == "import":
                 in_import[0] = True
+            elif token == "def":
+                in_def[0] = True
+            elif token in defines.keys():
+                if isinstance(defines[token], str):
+                    string_stack.append(defines[token])
+                    compiler.push(0)
+                    stack.append(0)
+                    for char in list("".join(defines[token][::-1])):
+                        asciinum = ord(char)
+                        stack.append(asciinum)
+                        compiler.push(asciinum)
+                else:
+                    stack.append(defines[token])
+                    compiler.push(defines[token])
+            elif token == "add":
+                in_add[0] = True
+                in_def1[0] = True
+            elif token == "sub":
+                in_sub[0] = True
+                in_def1[0] = True
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
@@ -254,7 +285,7 @@ def compile(code):
                         in_code[0] = False
                     else:
                         functions[funcname[0]].append(token)
-                elif token == "fun" or token == "while":
+                elif token == "fun" or token == "while" or token == "def":
                     functions[funcname[0]].append(token)
                     endnum += 1
                 else:
@@ -293,7 +324,7 @@ def compile(code):
                             compile(finalcode)
                     else:
                         while_code.append(token)
-                elif token == "fun" or token == "while":
+                elif token == "fun" or token == "while" or token == "def":
                     endnum += 1
                     while_code.append(token)
                 else:
@@ -309,6 +340,75 @@ def compile(code):
                 else:
                     print("Error: use .icaro file extension in import")
                     sys.exit(1)
+        elif in_def[0]:
+            if token == "end":
+                in_value[0] = False
+                in_def[0] = False
+            if not in_value[0]:
+                if token == "def":
+                    pass
+                elif token == "end":
+                    pass
+                else:
+                    defname[0] = token
+                    in_value[0] = True
+            elif in_value[0]:
+                if token == defname[0]:
+                    pass
+                elif token.isdigit():
+                    defines[defname[0]] = int(token)
+                    compiler.createintvar(defname[0], int(token))
+                    in_value[0] = False
+                elif token == "strstack":
+                    value = string_stack.pop()
+                    while True:
+                        letter = stack.pop()
+                        compiler.pop()
+                        if letter == 0:
+                            break
+                    compiler.createstrvar(defname[0], "".join(value[::-1]).replace("\n", ""))
+                    defines[defname[0]] = "".join(value[::-1])
+                    in_value[0] = False
+        elif in_add[0]:
+            if token == "stop":
+                in_def1[0] = False
+                in_def2[0] = False
+                in_add[0] = False
+                defines[def1[0]] += defines.get(def2[0])
+                compiler.sumvar(def1[0], def2[0])
+            if in_def1[0]:
+                if token == "add":
+                    pass
+                else:
+                    def1[0] = token
+                    in_def1[0] = False
+                    in_def2[0] = True
+            elif in_def2[0]:
+                if token == def1[0]:
+                    pass
+                else:
+                    def2[0] = token
+                    in_def2[0] = False
+        elif in_sub[0]:
+            if token == "stop":
+                in_def1[0] = False
+                in_def2[0] = False
+                in_sub[0] = False
+                defines[def1[0]] -= defines.get(def2[0])
+                compiler.subvar(def1[0], def2[0])
+            if in_def1[0]:
+                if token == "add":
+                    pass
+                else:
+                    def1[0] = token
+                    in_def1[0] = False
+                    in_def2[0] = True
+            elif in_def2[0]:
+                if token == def1[0]:
+                    pass
+                else:
+                    def2[0] = token
+                    in_def2[0] = False
 
 if __name__ == "__main__":
     version = "1.0"
