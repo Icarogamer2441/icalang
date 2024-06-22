@@ -8,3 +8,6 @@ fun prt
         0 != if print
     end
 end
+
+def true 1 end
+def false 0 end
