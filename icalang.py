@@ -52,9 +52,8 @@ def compile(code):
             if token.startswith("\""):
                 in_str[0] = True
                 stack.append(0)
-                compiler.push(0)
                 finalstr.append(token.replace("\"", "").replace("\\n", "\n"))
-            elif token.isdigit():
+            elif token.isdigit() or token.startswith("-") and "".join(token[1:]).isgidit():
                 compiler.push(int(token))
                 stack.append(int(token))
             elif token == "show":
@@ -67,22 +66,13 @@ def compile(code):
             elif token == "pop":
                 compiler.pop()
                 stack.pop()
-            elif token == "pops":
-                string_stack.pop()
-            elif token == "strtostack":
-                string = string_stack.pop()
-                stack.append(0)
-                compiler.push(0)
-                for char in list(string):
-                    asciichar = ord(char)
-                    stack.append(asciichar)
-                    compiler.push(asciichar)
             elif token == "fun":
                 in_func[0] = True
                 endnum += 1
             elif token == "==":
                 item1 = stack[len(stack) - 2]
                 item2 = stack.pop()
+                compiler.pop()
                 if item1 == item2:
                     stack.append(1)
                     compiler.push(1)
@@ -92,6 +82,7 @@ def compile(code):
             elif token == "!=":
                 item1 = stack[len(stack) - 2]
                 item2 = stack.pop()
+                compiler.pop()
                 if item1 != item2:
                     stack.append(1)
                     compiler.push(1)
@@ -103,28 +94,50 @@ def compile(code):
             elif token == "if":
                 in_if[0] = True
             elif token == "===":
-                item1 = string_stack[len(string_stack) - 2]
-                item2 = string_stack.pop()
+                string1 = []
+                string2 = []
                 while True:
                     letter = stack.pop()
                     compiler.pop()
                     if letter == 0:
                         break
-                if item1 == item2:
+                    else:
+                        string1.append(chr(letter))
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    if letter == 0:
+                        break
+                    else:
+                        string2.append(chr(letter))
+                string1 = "".join(string1)
+                string2 = "".join(string2)
+                if string1 == string2:
                     stack.append(1)
                     compiler.push(1)
                 else:
                     stack.append(0)
                     compiler.push(0)
             elif token == "!==":
-                item1 = string_stack[len(string_stack) - 2]
-                item2 = string_stack.pop()
+                string1 = []
+                string2 = []
                 while True:
                     letter = stack.pop()
                     compiler.pop()
                     if letter == 0:
                         break
-                if item1 != item2:
+                    else:
+                        string1.append(chr(letter))
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    if letter == 0:
+                        break
+                    else:
+                        string2.append(chr(letter))
+                string1 = "".join(string1)
+                string2 = "".join(string2)
+                if string1 != string2:
                     stack.append(1)
                     compiler.push(1)
                 else:
@@ -157,6 +170,7 @@ def compile(code):
             elif token == ">=":
                 item1 = stack[len(stack) - 2]
                 item2 = stack.pop()
+                compiler.pop()
                 if item1 >= item2:
                     stack.append(1)
                     compiler.push(1)
@@ -166,6 +180,7 @@ def compile(code):
             elif token == "<=":
                 item1 = stack[len(stack) - 2]
                 item2 = stack.pop()
+                compiler.pop()
                 if item1 <= item2:
                     stack.append(1)
                     compiler.push(1)
@@ -178,6 +193,7 @@ def compile(code):
             elif token == ">":
                 item1 = stack[len(stack) - 2]
                 item2 = stack.pop()
+                compiler.pop()
                 if item1 > item2:
                     stack.append(1)
                     compiler.push(1)
@@ -187,6 +203,7 @@ def compile(code):
             elif token == "<":
                 item1 = stack[len(stack) - 2]
                 item2 = stack.pop()
+                compiler.pop()
                 if item1 < item2:
                     stack.append(1)
                     compiler.push(1)
@@ -204,38 +221,35 @@ def compile(code):
                     compiler.push(1)
             elif token == "nothing":
                 print("", end="")
-            elif token == "split":
-                item = string_stack.pop()
-                splited = item.split()
-                for itemm in splited:
-                    compiler.push(0)
-                    stack.append(0)
-                    string_stack.append(itemm)
-                    for char in list(itemm):
-                        asciinum = ord(char)
-                        stack.append(asciinum)
-                        compiler.push(asciinum)
             elif token == "argv0":
                 if len(sys.argv) >= 2:
-                    string_stack.append("".join(sys.argv[1][::-1]))
+                    compiler.pushstr(join(sys.argv[1][::-1]))
+                    for char in reversed(sys.argv[1]):
+                        stack.append(ord(char))
                 else:
                     print("Error: can't get pos argv 1 (filename)")
                     sys.exit(1)
             elif token == "argv1":
                 if len(sys.argv) >= 3:
-                    string_stack.append("".join(sys.argv[2][::-1]))
+                    compiler.pushstr("".join(sys.argv[2][::-1]))
+                    for char in reversed(sys.argv[2]):
+                        stack.append(ord(char))
                 else:
                     print("Error: can't get pos argv 2 (arg1)")
                     sys.exit(1)
             elif token == "argv2":
                 if len(sys.argv) >= 4:
-                    string_stack.append("".join(sys.argv[3][::-1]))
+                    compiler.pushstr("".join(sys.argv[3][::-1]))
+                    for char in reversed(sys.argv[3]):
+                        stack.append(ord(char))
                 else:
                     print("Error: can't get pos argv 3 (arg2)")
                     sys.exit(1)
             elif token == "argv3":
                 if len(sys.argv) >= 5:
-                    string_stack.append("".join(sys.argv[4][::-1]))
+                    compiler.pushstr("".join(sys.argv[4][::-1]))
+                    for char in reversed(sys.argv[4]):
+                        stack.append(ord(char))
                 else:
                     print("Error: can't get pos argv 4 (arg3)")
                     sys.exit(1)
@@ -250,13 +264,11 @@ def compile(code):
                 in_def[0] = True
             elif token in defines.keys():
                 if isinstance(defines[token], str):
-                    string_stack.append(defines[token])
-                    compiler.push(0)
                     stack.append(0)
+                    compiler.pushstr(defines[token])
                     for char in list("".join(defines[token][::-1])):
                         asciinum = ord(char)
                         stack.append(asciinum)
-                        compiler.push(asciinum)
                 else:
                     stack.append(defines[token])
                     compiler.push(defines[token])
@@ -266,6 +278,31 @@ def compile(code):
             elif token == "sub":
                 in_sub[0] = True
                 in_def1[0] = True
+            elif token == "exit1":
+                string = []
+                while True:
+                    item = stack.pop()
+                    compiler.pop()
+                    if item == 0:
+                        break
+                    else:
+                        string.append(chr(item))
+                string = "".join(string)
+                print(string)
+                sys.exit(1)
+            elif token == "prtinput":
+                string = []
+                while True:
+                    item = stack.pop()
+                    compiler.pop()
+                    if item == 0:
+                        break
+                    elif token == 32:
+                        pass
+                    else:
+                        string.append(chr(item))
+                string = "".join(string)
+                compiler.prtinp(string)
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
@@ -274,11 +311,11 @@ def compile(code):
                 finalstr.append(token.replace("\"", "").replace("\\n", "\n"))
                 in_str[0] = False
                 string = list("".join(" ".join(finalstr)[::-1]))
-                string_stack.append("".join(string))
+                compiler.pushstr("".join("".join(string)[::-1]))
+                stack.append(0)
                 for char in string:
                     asciichar = ord(char)
                     stack.append(asciichar)
-                    compiler.push(asciichar)
             else:
                 finalstr.append(token.replace("\"", "").replace("\\n", "\n"))
         elif in_func[0]:
@@ -389,6 +426,9 @@ def compile(code):
                     compiler.createstrvar(defname[0], "".join(value[::-1]).replace("\n", ""))
                     defines[defname[0]] = "".join(value[::-1])
                     in_value[0] = False
+                elif token == "input":
+                    compiler.strinp(defname[0])
+                    in_value[0] = False
         elif in_add[0]:
             if token == "stop":
                 in_def1[0] = False
@@ -431,7 +471,7 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "1.2"
+    version = "1.3"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
         print(f"Usage: {sys.argv[0]} <file>")
