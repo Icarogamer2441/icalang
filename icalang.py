@@ -4,7 +4,6 @@ import os
 
 functions = {}
 stack = []
-string_stack = []
 running_while = [False]
 defines = {}
 
