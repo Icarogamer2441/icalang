@@ -339,6 +339,7 @@ def compile(code):
                 pass
             else:
                 item = stack.pop()
+                compiler.pop()
                 if item:
                     compile(token)
                 else:
