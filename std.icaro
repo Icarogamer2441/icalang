@@ -15,3 +15,16 @@ def false 0 end
 fun dpop
     pop pop
 end
+
+fun Errorisint32
+    "Error: is not int32" exit1
+end
+
+fun stdv
+    "Std version: 1.0" prt
+end
+
+fun isint32
+    2147483647 > if Errorisint32
+    -2147483647 < if Errorisint32
+end
