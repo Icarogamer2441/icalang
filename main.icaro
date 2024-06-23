@@ -1,3 +1,4 @@
+/* use ./ to import files, and dont use ./ to import from icarolibs folder (the icarolibs folder can be in your home folder or in documents folder or in the same folder your file is in) *\
 import ./std.icaro
 
 /*
