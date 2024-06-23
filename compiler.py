@@ -342,6 +342,17 @@ def ret():
     with open(output_name[0] + ".asm", "a") as fi:
         fi.write("    ret\n")
 
+def pushstr(string):
+    partnum[0] += 1
+    str_len = len(string)
+    with open(output_name[0] + ".asm", "a") as fi:
+        fi.write(f"    jmp part_{partnum[0]}\n")
+        fi.write(f"part_{partnum[0]}:\n")
+        fi.write("    mov rax, 0\n")
+        fi.write("    push rax\n")  # Null terminator
+        for char in reversed(string):
+            fi.write(f"    mov rax, {ord(char)}\n")
+            fi.write("    push rax\n")
 def end():
     with open(output_name[0] + ".asm", "a") as fi:
         fi.write("    jmp end\n")
