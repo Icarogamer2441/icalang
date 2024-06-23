@@ -252,11 +252,6 @@ def compile(code):
                 else:
                     print("Error: can't get pos argv 4 (arg3)")
                     sys.exit(1)
-            elif token == "strstack":
-                compiler.msg("String stack:\\n")
-                for string in string_stack:
-                    compiler.msg(string)
-                    compiler.msg("\\n")
             elif token == "import":
                 in_import[0] = True
             elif token == "def":
