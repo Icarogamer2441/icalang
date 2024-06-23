@@ -1,4 +1,4 @@
-import std.icaro
+import ./std.icaro
 
 /*
 see icalang.py to see all keywords and functions
