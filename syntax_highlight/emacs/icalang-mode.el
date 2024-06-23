@@ -1,10 +1,8 @@
 (defvar icalang-mode-hook nil)
 
 (defvar icalang-keywords
-  '("import" "def" "end" "fun" "while" "if" "show" "print" "pop" "pops"
-    "strtostack" "==" "!=" "===" "!==" "stopwhile" "+" "-" "stk" ">=" "<=" 
-    "dup" ">" "<" "not" "nothing" "split" "argv0" "argv1" "argv2" "argv3"
-    "strstack" "add" "sub" "stop"))
+  '("import" "def" "end" "fun" "while" "if" "show" "print" "pop" "pops" "==" "!=" "===" "!==" "stopwhile" "+" "-" "stk" ">=" "<=" 
+    "dup" ">" "<" "not" "nothing" "argv0" "argv1" "argv2" "argv3" "add" "sub" "stop" "exit1" "prtinput"))
 
 (defvar icalang-font-lock-keywords
   (let* (
