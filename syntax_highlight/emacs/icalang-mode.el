@@ -20,7 +20,6 @@
     syntax-table)
   "Syntax table for icalang-mode")
 
-;; Função principal para iniciar o modo maior
 (defun icalang-mode ()
   "Larger mode to edit Icalang files."
   (interactive)
