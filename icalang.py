@@ -52,7 +52,7 @@ def compile(code):
                 in_str[0] = True
                 stack.append(0)
                 finalstr.append(token.replace("\"", "").replace("\\n", "\n"))
-            elif token.isdigit() or token.startswith("-") and "".join(token[1:]).isgidit():
+            elif token.isdigit() or token.startswith("-") and "".join(token[1:]).isdigit():
                 compiler.push(int(token))
                 stack.append(int(token))
             elif token == "show":
