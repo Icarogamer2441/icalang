@@ -1,11 +1,23 @@
 import compiler
 import sys
+import os
 
 functions = {}
 stack = []
 string_stack = []
 running_while = [False]
 defines = {}
+
+def find_icarolibs_dir(start_path):
+    current_path = start_path
+    while True:
+        for root, dirs, files in os.walk(current_path):
+            if 'icarolibs' in dirs:
+                return os.path.join(root, 'icarolibs')
+        parent_path = os.path.dirname(current_path)
+        if parent_path == current_path:
+            return None
+        current_path = parent_path
 
 def compile(code):
     tokens = code.split() or code.split("\t")
@@ -335,9 +347,16 @@ def compile(code):
                 pass
             else:
                 if token.endswith(".icaro"):
-                    with open(token, "r") as fi:
-                        compile(fi.read())
-                    in_import[0] = False
+                    start_directory = os.getcwd()
+                    if token.startswith("./"):
+                        with open(token, "r") as fi:
+                            compile(fi.read())
+                        in_import[0] = False
+                    else:
+                        result = find_icarolibs_dir(start_directory)
+                        with open(f"{result}/{token}", "r") as fi:
+                            compile(fi.read())
+                        in_import[0] = False
                 else:
                     print("Error: use .icaro file extension in import")
                     sys.exit(1)
@@ -412,7 +431,7 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "1.1"
+    version = "1.2"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
         print(f"Usage: {sys.argv[0]} <file>")
