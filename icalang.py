@@ -50,9 +50,19 @@ def compile(code):
 
         if not in_str[0] and not in_func[0] and not in_if[0] and not in_comment[0] and not in_while[0] and not in_import[0] and not in_def[0] and not in_add[0] and not in_sub[0]:
             if token.startswith("\""):
-                in_str[0] = True
-                stack.append(0)
-                finalstr.append(token.replace("\"", "").replace("\\n", "\n"))
+                finalstr = []
+                if token.endswith("\""):
+                    finalstr.append(token.replace("\"", "").replace("\\n", "\n"))
+                    string = list("".join(" ".join(finalstr)[::-1]))
+                    compiler.pushstr("".join("".join(string)[::-1]))
+                    stack.append(0)
+                    for char in string:
+                        asciichar = ord(char)
+                        stack.append(asciichar)
+                else:
+                    in_str[0] = True
+                    stack.append(0)
+                    finalstr.append(token.replace("\"", "").replace("\\n", "\n"))
             elif token.isdigit() or token.startswith("-") and "".join(token[1:]).isdigit():
                 compiler.push(int(token))
                 stack.append(int(token))
@@ -298,6 +308,27 @@ def compile(code):
                         string.append(chr(item))
                 string = "".join(string)
                 compiler.prtinp(string)
+            elif token == "split":
+                string = []
+
+                while True:
+                    letter = stack.pop
+                    compiler.pop()
+                    if letter == 0:
+                        break
+                    else:
+                        string.append(chr(letter))
+                string = "".join(string).split()
+                for word in string:
+                    stack.append(0)
+                    asciichars = list(word)
+                    compiler.pushstr(word)
+                    while True:
+                        letter = asciichars.pop()
+                        if letter == 0:
+                            break
+                        else:
+                            stack.append(letter)
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
