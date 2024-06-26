@@ -1,6 +1,7 @@
 import compiler
 import sys
 import os
+import subprocess
 
 functions = {}
 stack = []
@@ -412,14 +413,17 @@ def compile(code):
                     compiler.createintvar(defname[0], int(token))
                     in_value[0] = False
                 elif token == "strstack":
-                    value = string_stack.pop()
+                    string = []
                     while True:
                         letter = stack.pop()
                         compiler.pop()
                         if letter == 0:
                             break
-                    compiler.createstrvar(defname[0], "".join(value[::-1]).replace("\n", ""))
-                    defines[defname[0]] = "".join(value[::-1])
+                        else:
+                            string.append(chr(letter))
+                    string = "".join(string)
+                    compiler.createstrvar(defname[0], "".join(string).replace("\n", ""))
+                    defines[defname[0]] = "".join(string)
                     in_value[0] = False
                 elif token == "input":
                     compiler.strinp(defname[0])
@@ -466,10 +470,14 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "1.3"
+    version = "1.4"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
-        print(f"Usage: {sys.argv[0]} <file>")
+        print(f"Usage: {sys.argv[0]} [arg]")
+        print(f"args:")
+        print("  <file>          compile your file.")
+        print("  -p              compile your project. you need ./src/main.icaro and ./build/ directory.")
+        print("  -r <file>       compile and run your file")
     else:
         if sys.argv[1].endswith(".icaro"):
             outputname = sys.argv[1].replace(".icaro", "")
@@ -477,5 +485,25 @@ if __name__ == "__main__":
                 compiler.start(outputname)
                 compile(f.read())
                 compiler.end()
+        elif sys.argv[1] == "-p":
+            outputname = "build/output"
+            with open("src/main.icaro", "r") as f:
+                compiler.start(outputname)
+                compile(f.read())
+                compiler.end()
+        elif sys.argv[1] == "-r":
+            if len(sys.argv) > 2:
+                if sys.argv[2].endswith(".icaro"):
+                    outputname = sys.argv[2].replace(".icaro", "")
+                    with open(sys.argv[2], "r") as f:
+                        compiler.start(outputname)
+                        compile(f.read())
+                        compiler.end()
+                    print("INFO: running your compiled file")
+                    print(f"EXEC: ./{outputname}")
+                    subprocess.run(f"./{outputname}", shell=True)
+                else:
+                    print("Error: where's the file path?")
+                    sys.exit(1)
         else:
-            print("Error: use .icaro file extension!")
+            print("Error: use a valid argument! (file with extension .icaro or 'proj' as an argument).")
