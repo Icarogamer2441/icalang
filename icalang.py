@@ -369,6 +369,22 @@ def compile(code):
                 stack.append(item1)
                 compiler.push(item2)
                 compiler.push(item1)
+            elif token == "reversed":
+                string = []
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    if letter == 0:
+                        break
+                    else:
+                        string.append(chr(letter))
+                string = "".join(reversed("".join(string)))
+                for char in list(string):
+                    asciinum = ord(char)
+                    stack.append(asciinum)
+                    compiler.push(asciinum)
+                stack.append(0)
+                compiler.push(0)
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
@@ -527,7 +543,7 @@ def compile(code):
                 defines[def1[0]] -= defines.get(def2[0])
                 compiler.subvar(def1[0], def2[0])
             if in_def1[0]:
-                if token == "add":
+                if token == "sub":
                     pass
                 else:
                     def1[0] = token
