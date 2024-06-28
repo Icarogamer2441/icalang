@@ -2,7 +2,7 @@
 
 (defvar icalang-keywords
   '("import" "def" "end" "fun" "while" "if" "show" "print" "pop" "pops" "==" "!=" "===" "!==" "stopwhile" "+" "-" "stk" ">=" "<=" 
-    "dup" ">" "<" "not" "nothing" "argv0" "argv1" "argv2" "argv3" "add" "sub" "stop" "exit1" "prtinput" "split" "and" "or" "swap" "take" "drop" "reversed"))
+    "dup" ">" "<" "not" "nothing" "argv0" "argv1" "argv2" "argv3" "add" "sub" "stop" "exit1" "prtinput" "split" "and" "or" "swap" "take" "drop" "reversed" "mem" "dupstr"))
 
 (defvar icalang-font-lock-keywords
   (let* (
