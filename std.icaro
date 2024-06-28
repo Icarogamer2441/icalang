@@ -34,17 +34,22 @@ fun endtakestr
 end
 
 fun takestr
+    999
+    reversed
     while
-        0 == if endtakestr
-	0 != if take
+        999 == if endtakestr
+	999 != if take
     end
+end
+
+fun enddropstr
+    pop stopwhile
 end
 
 fun dropstr
     while
         drop
-	0 == if stopwhile
-	0 != if nothing
+	999 == if enddropstr
     end
 end
 
