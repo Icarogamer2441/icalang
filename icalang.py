@@ -379,7 +379,7 @@ def compile(code):
                         break
                     else:
                         string.append(chr(letter))
-                string = "".join("".join(string)[::-1])
+                string = "".join("".join(string))
                 for char in list(string):
                     asciinum = ord(char)
                     stack.append(asciinum)
