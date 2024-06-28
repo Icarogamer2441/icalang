@@ -311,25 +311,21 @@ def compile(code):
                 compiler.prtinp(string)
             elif token == "split":
                 string = []
-
                 while True:
-                    letter = stack.pop
+                    letter = stack.pop()
                     compiler.pop()
-                    if letter == 0:
+                    if letter == 0:     
+                        stack.pop()
+                        compiler.pop()
                         break
                     else:
                         string.append(chr(letter))
                 string = "".join(string).split()
                 for word in string:
                     stack.append(0)
-                    asciichars = list(word)
                     compiler.pushstr(word)
-                    while True:
-                        letter = asciichars.pop()
-                        if letter == 0:
-                            break
-                        else:
-                            stack.append(letter)
+                    for char in list(word):
+                        stack.append(ord(char))
             elif token == "and":
                 item1 = stack.pop()
                 item2 = stack.pop()
@@ -375,19 +371,38 @@ def compile(code):
                     letter = stack.pop()
                     compiler.pop()
                     if letter == 0:
-                        string.append(chr(letter))
                         break
                     else:
                         string.append(chr(letter))
                 string = "".join("".join(string))
+                compiler.pushstr(string)
+                stack.append(0)
                 for char in list(string):
                     asciinum = ord(char)
                     stack.append(asciinum)
-                    compiler.push(asciinum)
             elif token == "mem":
                 compiler.msg("Memory:\\n")
                 for item in memory:
                     compiler.msg(f"{item}\\n")
+            elif token == "dupstr":
+                string = []
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    if letter == 0:
+                        string.append(chr(0))
+                        break
+                    else:
+                        string.append(chr(letter))
+                string = "".join("".join(string)[::-1])
+                compiler.pushstr(string)
+                compiler.pushstr(string)
+                stack.append(0)
+                for char in list(string):
+                    stack.append(ord(char))
+                stack.append(0)
+                for char in list(string):
+                    stack.append(ord(char))
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
@@ -560,7 +575,7 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "1.6"
+    version = "1.7"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
         print(f"Usage: {sys.argv[0]} [arg]")
