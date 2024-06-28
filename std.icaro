@@ -37,8 +37,8 @@ fun takestr
     999
     reversed
     while
-        999 == if endtakestr
-	999 != if take
+        0 == if endtakestr
+	0 != if take
     end
 end
 
