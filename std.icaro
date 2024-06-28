@@ -21,10 +21,33 @@ fun Errorisint32
 end
 
 fun stdv
-    "Std version: 1.0" prt
+    "Std version: 1.1" prt
 end
 
 fun isint32
     2147483647 > if Errorisint32
     -2147483647 < if Errorisint32
+end
+
+fun endtakestr
+    take stopwhile
+end
+
+fun takestr
+    while
+        0 == if endtakestr
+	0 != if take
+    end
+end
+
+fun dropstr
+    while
+        drop
+	0 == if stopwhile
+	0 != if nothing
+    end
+end
+
+fun 2dup
+    take dup drop dup
 end
