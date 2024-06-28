@@ -55,3 +55,10 @@ end
 fun 2dup
     take dup drop dup
 end
+
+fun popstr
+    while
+        0 == if stopwhile
+	pop
+    end
+end
