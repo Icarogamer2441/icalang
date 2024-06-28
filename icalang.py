@@ -375,16 +375,19 @@ def compile(code):
                     letter = stack.pop()
                     compiler.pop()
                     if letter == 0:
+                        string.append(chr(letter))
                         break
                     else:
                         string.append(chr(letter))
-                string = "".join(reversed("".join(string)))
+                string = "".join("".join(string)[::-1])
                 for char in list(string):
                     asciinum = ord(char)
                     stack.append(asciinum)
                     compiler.push(asciinum)
-                stack.append(0)
-                compiler.push(0)
+            elif token == "mem":
+                compiler.msg("Memory:\\n")
+                for item in memory:
+                    compiler.msg(f"{item}\\n")
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
