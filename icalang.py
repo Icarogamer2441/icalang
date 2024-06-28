@@ -7,6 +7,7 @@ functions = {}
 stack = []
 running_while = [False]
 defines = {}
+memory = []
 
 def find_icarolibs_dir(start_path):
     current_path = start_path
@@ -329,6 +330,45 @@ def compile(code):
                             break
                         else:
                             stack.append(letter)
+            elif token == "and":
+                item1 = stack.pop()
+                item2 = stack.pop()
+                compiler.pop()
+                compiler.pop()
+                if item1 and item2:
+                    stack.append(1)
+                    compiler.push(1)
+                else:
+                    stack.append(0)
+                    compiler.push(0)
+            elif token == "or":
+                item1 = stack.pop()
+                item2 = stack.pop()
+                compiler.pop()
+                compiler.pop()
+                if item1 or item2:
+                    stack.append(1)
+                    compiler.push(1)
+                else:
+                    stack.append(0)
+                    compiler.push(0)
+            elif token == "take":
+                item = stack.pop()
+                compiler.pop()
+                memory.append(item)
+            elif token == "drop":
+                item = memory.pop()
+                stack.append(item)
+                compiler.push(item)
+            elif token == "swap":
+                item1 = stack.pop()
+                item2 = stack.pop()
+                compiler.pop()
+                compiler.pop()
+                stack.append(item2)
+                stack.append(item1)
+                compiler.push(item2)
+                compiler.push(item1)
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
@@ -501,7 +541,7 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "1.5"
+    version = "1.6"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
         print(f"Usage: {sys.argv[0]} [arg]")
