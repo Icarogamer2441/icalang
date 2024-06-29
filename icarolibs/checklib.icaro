@@ -1,0 +1,12 @@
+fun check
+    dupstr dropstr === if
+end
+
+/* how to use "check": *\
+/* this will not execute because it's not the command "something": *\
+/* "something" takestr *\
+/* "test" check yourfunction *\
+/* this will work because the command it's the same: *\
+/* "mycmd" takestr *\
+/* "mycmd" check yourfunction *\
+/* you need use this library with std library because it uses "dropstr" from std lib *\
