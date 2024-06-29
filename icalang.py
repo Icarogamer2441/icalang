@@ -398,6 +398,34 @@ def compile(code):
                     stack.append(ord(char))
                 for char in list(string):
                     stack.append(ord(char))
+            elif token == "<<":
+                item2 = stack.pop()
+                item1 = stack.pop()
+                compiler.pop()
+                compiler.pop()
+                compiler.push(item1 << item2)
+                stack.append(item1 << item2)
+            elif token == ">>":
+                item2 = stack.pop()
+                item1 = stack.pop()
+                compiler.pop()
+                compiler.pop()
+                compiler.push(item1 >> item2)
+                stack.append(item1 >> item2)
+            elif token == "bor":
+                item2 = stack.pop()
+                item1 = stack.pop()
+                compiler.pop()
+                compiler.pop()
+                compiler.push(item1 | item2)
+                stack.append(item1 | item2)
+            elif token == "band":
+               item2 = stack.pop()
+                item1 = stack.pop()
+                compiler.pop()
+                compiler.pop()
+                compiler.push(item1 & item2)
+                stack.append(item1 & item2)
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
