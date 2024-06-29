@@ -570,14 +570,16 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "1.7.1"
+    version = "1.8"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
-        print(f"Usage: {sys.argv[0]} [arg]")
+        print(f"Usage: {sys.argv[0]} [arg] [cmd]")
         print(f"args:")
         print("  <file>          compile your file.")
         print("  -p              compile your project. you need ./src/main.icaro and ./build/ directory.")
         print("  -r <file>       compile and run your file")
+        print("commands:")
+        print("  --dont-rm-asm   don't delete your assembly output file")
     else:
         if sys.argv[1].endswith(".icaro"):
             outputname = sys.argv[1].replace(".icaro", "")
