@@ -36,8 +36,8 @@ end
 fun takestr
     999
     while
+        0 != if take
         0 == if endtakestr
-	0 != if take
     end
 end
 
