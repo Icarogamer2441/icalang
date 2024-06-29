@@ -420,7 +420,7 @@ def compile(code):
                 compiler.push(item1 | item2)
                 stack.append(item1 | item2)
             elif token == "band":
-               item2 = stack.pop()
+                item2 = stack.pop()
                 item1 = stack.pop()
                 compiler.pop()
                 compiler.pop()
