@@ -4,8 +4,8 @@ end
 
 fun prt
     while
-        0 == if popstop
         0 != if print
+        0 == if popstop
     end
 end
 
