@@ -1,7 +1,7 @@
 (defvar icalang-mode-hook nil)
 
 (defvar icalang-keywords
-  '("import" "def" "end" "fun" "while" "if" "show" "print" "pop" "pops" "==" "!=" "===" "!==" "stopwhile" "+" "-" "stk" ">=" "<=" 
+  '("import" "def" "end" "fun" "while" "if" "show" "print" "pop" "==" "!=" "===" "!==" "stopwhile" "+" "-" "stk" ">=" "<=" 
     "dup" ">" "<" "not" "nothing" "argv0" "argv1" "argv2" "argv3" "add" "sub" "stop" "exit1" "prtinput" "split" "and" "or" "swap" "take" "drop" "reversed" "mem" "dupstr" "strstack"))
 
 (defvar icalang-font-lock-keywords
