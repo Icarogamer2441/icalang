@@ -570,14 +570,16 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "1.7.1"
+    version = "1.8"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
-        print(f"Usage: {sys.argv[0]} [arg]")
+        print(f"Usage: {sys.argv[0]} [arg] [cmd]")
         print(f"args:")
         print("  <file>          compile your file.")
         print("  -p              compile your project. you need ./src/main.icaro and ./build/ directory.")
         print("  -r <file>       compile and run your file")
+        print("commands:")
+        print("  --dont-rm-asm   don't removes your assembly output file")
     else:
         if sys.argv[1].endswith(".icaro"):
             outputname = sys.argv[1].replace(".icaro", "")
@@ -585,12 +587,28 @@ if __name__ == "__main__":
                 compiler.start(outputname)
                 compile(f.read())
                 compiler.end()
+                if len(sys.argv) > 2:
+                    if sys.argv[2] == "--dont-rm-asm":
+                        pass
+                    else:
+                        print("Error: you can only use: --dont-rm-asm")
+                else:
+                    print(f"EXEC: ./{outputname}")
+                    subprocess.run(f"./{outputname}", shell=True)
         elif sys.argv[1] == "-p":
             outputname = "build/output"
             with open("src/main.icaro", "r") as f:
                 compiler.start(outputname)
                 compile(f.read())
                 compiler.end()
+                if len(sys.argv) > 2:
+                    if sys.argv[2] == "--dont-rm-asm":
+                        pass
+                    else:
+                        print("Error: you can only use: --dont-rm-asm")
+                else:
+                    print(f"EXEC: ./{outputname}")
+                    subprocess.run(f"./{outputname}", shell=True)
         elif sys.argv[1] == "-r":
             if len(sys.argv) > 2:
                 if sys.argv[2].endswith(".icaro"):
@@ -599,9 +617,17 @@ if __name__ == "__main__":
                         compiler.start(outputname)
                         compile(f.read())
                         compiler.end()
+                        print(f"EXEC: rm -rf {outputname}.asm")
+                        subprocess.run(f"rm -rf {outputname}.asm", shell=True)
                     print("INFO: running your compiled file")
-                    print(f"EXEC: ./{outputname}")
-                    subprocess.run(f"./{outputname}", shell=True)
+                    if len(sys.argv) > 3:
+                        if sys.argv[3] == "--dont-rm-asm":
+                            pass
+                        else:
+                            print("Error: you can only use: --dont-rm-asm")
+                    else:
+                        print(f"EXEC: ./{outputname}")
+                        subprocess.run(f"./{outputname}", shell=True)
                 else:
                     print("Error: where's the file path?")
                     sys.exit(1)
