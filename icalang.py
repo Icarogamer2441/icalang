@@ -317,7 +317,7 @@ def compile(code):
                         break
                     else:
                         string.append(chr(letter))
-                string = "".join(string).split()
+                string = "".join("".join(string)[::-1]).split()
                 for word in string:
                     stack.append(0)
                     compiler.pushstr(word)
