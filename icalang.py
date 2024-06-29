@@ -396,10 +396,8 @@ def compile(code):
                 string = "".join("".join(string)[::-1])
                 compiler.pushstr(string)
                 compiler.pushstr(string)
-                stack.append(0)
                 for char in list(string):
                     stack.append(ord(char))
-                stack.append(0)
                 for char in list(string):
                     stack.append(ord(char))
             else:
@@ -574,7 +572,7 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "1.7"
+    version = "1.7.1"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
         print(f"Usage: {sys.argv[0]} [arg]")
