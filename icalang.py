@@ -313,9 +313,7 @@ def compile(code):
                 while True:
                     letter = stack.pop()
                     compiler.pop()
-                    if letter == 0:     
-                        stack.pop()
-                        compiler.pop()
+                    if letter == 0:
                         break
                     else:
                         string.append(chr(letter))
