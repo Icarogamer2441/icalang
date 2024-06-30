@@ -7,7 +7,7 @@ functions = {}
 stack = []
 running_while = [False]
 defines = {}
-memory = []
+memorys = {"memory1": []}
 
 def find_icarolibs_dir(start_path):
     current_path = start_path
@@ -43,6 +43,7 @@ def compile(code):
     in_def2 = [False]
     def1 = [""]
     def2 = [""]
+    currentmemnum = [1]
 
     while tokenpos <= len(tokens):
         token = tokens[tokenpos - 1]
@@ -347,9 +348,9 @@ def compile(code):
             elif token == "take":
                 item = stack.pop()
                 compiler.pop()
-                memory.append(item)
+                memorys["memory1"].append(item)
             elif token == "drop":
-                item = memory.pop()
+                item = memorys["memory1"].pop()
                 stack.append(item)
                 compiler.push(item)
             elif token == "swap":
@@ -443,6 +444,19 @@ def compile(code):
                     stack.append(0)
                     for char in fi.read()[::-1]:
                         stack.append(ord(char))
+            elif token == "takem":
+                memnum = stack.pop()
+                compiler.pop()
+                memorys[f"memory{memnum}"].append(stack.pop())
+                compiler.pop()
+            elif token == "dropm":
+                memnum = stack.pop()
+                compiler.pop()
+                stack.append(memorys[f"memory{memnum}"].pop())
+                compiler.push(memorys[f"memory{memnum}"].pop()}
+            elif token == "createmem":
+                currentmemnum[0] += 1
+                memorys[f"memory{currentmemnum[0]}"] = []
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
@@ -615,7 +629,7 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "1.9"
+    version = "2.0"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
         print(f"Usage: {sys.argv[0]} [arg] [cmd]")
