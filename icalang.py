@@ -379,7 +379,7 @@ def compile(code):
                     stack.append(asciinum)
             elif token == "mem":
                 compiler.msg("Memory:\\n")
-                for item in memory:
+                for item in memorys["memory1"]:
                     compiler.msg(f"{item}\\n")
             elif token == "dupstr":
                 string = []
@@ -457,6 +457,12 @@ def compile(code):
             elif token == "createmem":
                 currentmemnum[0] += 1
                 memorys[f"memory{currentmemnum[0]}"] = []
+            elif token == "memn":
+                memnum = stack.pop()
+                compiler.pop()
+                compiler.msg(f"Memory{memnum}:\\n")
+                for item in memorys[f"memory{memnum}"]:
+                    compiler.msg(f"{item}\\n")
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
