@@ -43,7 +43,6 @@ def compile(code):
     in_def2 = [False]
     def1 = [""]
     def2 = [""]
-    selected_def = [""]
 
     while tokenpos <= len(tokens):
         token = tokens[tokenpos - 1]
@@ -426,6 +425,21 @@ def compile(code):
                 compiler.pop()
                 compiler.push(item1 & item2)
                 stack.append(item1 & item2)
+            elif token == "readfile":
+                filename = []
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    
+                    if letter == 0:
+                        break
+                    else:
+                        filename.append(chr(letter))
+                filename = "".join(filename)
+                with open(filename, "r") as fi:
+                    compiler.pushstr("".join(fi.read[::-1]))
+                    for char in list("".join(fi.read[::-1])):
+                        stack.append(ord(char))
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
@@ -598,7 +612,7 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "1.8"
+    version = "1.9"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
         print(f"Usage: {sys.argv[0]} [arg] [cmd]")
