@@ -453,7 +453,7 @@ def compile(code):
                 memnum = stack.pop()
                 compiler.pop()
                 stack.append(memorys[f"memory{memnum}"].pop())
-                compiler.push(memorys[f"memory{memnum}"].pop()}
+                compiler.push(memorys[f"memory{memnum}"].pop())
             elif token == "createmem":
                 currentmemnum[0] += 1
                 memorys[f"memory{currentmemnum[0]}"] = []
