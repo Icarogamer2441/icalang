@@ -169,7 +169,7 @@ def compile(code):
             elif token == "-":
                 num2 = stack.pop()
                 num1 = stack.pop()
-                stack.append(num1 + num2)
+                stack.append(num1 - num2)
                 compiler.substk()
             elif token == "stk":
                 compiler.msg("Stack:\\n")
