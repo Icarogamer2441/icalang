@@ -438,7 +438,7 @@ def compile(code):
                 filename = "".join(filename)
                 with open(filename, "r") as fi:
                     compiler.pushstr("".join(fi.read()[::-1]))
-                    stack.push(0)
+                    stack.append(0)
                     for char in list("".join(fi.read()[::-1])):
                         stack.append(ord(char))
             else:
