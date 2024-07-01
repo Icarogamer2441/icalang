@@ -463,6 +463,64 @@ def compile(code):
                 compiler.msg(f"Memory{memnum}:\\n")
                 for item in memorys[f"memory{memnum}"]:
                     compiler.msg(f"{item}\\n")
+            elif token == "write":
+                filename = []
+                content = []
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    if letter == 0:
+                        break
+                    else:
+                        filename.append(chr(letter))
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    if letter == 0:
+                        break
+                    else:
+                        content.append(chr(letter))
+                filename = "".join(filename)
+                content = "".join(content)
+                compiler.openwritefile(filename)
+                compiler.writefile(content)
+                compiler.closefile()
+            elif token == "append":
+                filename = []
+                content = []
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    if letter == 0:
+                        break
+                    else:
+                        filename.append(chr(letter))
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    if letter == 0:
+                        break
+                    else:
+                        content.append(chr(letter))
+                filename = "".join(filename)
+                content = "".join(content)
+                compiler.openappendfile(filename)
+                compiler.writefile(content)
+                compiler.closefile()
+            elif token == "appendnl":
+                filename = []
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    if letter == 0:
+                        break
+                    else:
+                        filename.append(chr(letter))
+                filename = "".join(filename)
+                content = "".join(content)
+                compiler.openappendfile(filename)
+                compiler.writenlfile()
+                compiler.closefile()
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
@@ -635,7 +693,7 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "2.0"
+    version = "2.1"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
         print(f"Usage: {sys.argv[0]} [arg] [cmd]")
