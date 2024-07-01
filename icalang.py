@@ -517,7 +517,6 @@ def compile(code):
                     else:
                         filename.append(chr(letter))
                 filename = "".join(filename)
-                content = "".join(content)
                 compiler.openappendfile(filename)
                 compiler.writenlfile()
                 compiler.closefile()
