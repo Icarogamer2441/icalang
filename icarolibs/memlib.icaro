@@ -1,0 +1,31 @@
+fun mem2
+    2 memn
+end
+
+fun mem3
+    3 memn
+end
+
+fun mem4
+    4 memn
+end
+
+fun mem5
+    5 memn
+end
+
+fun take2
+    2 takem
+end
+
+fun take3
+    3 takem
+end
+
+fun take4
+    4 takem
+end
+
+fun take5
+    5 takem
+end
