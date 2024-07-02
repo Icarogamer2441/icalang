@@ -520,6 +520,11 @@ def compile(code):
                 compiler.openappendfile(filename)
                 compiler.writenlfile()
                 compiler.closefile()
+            elif token == "tostr":
+                intstr = "".join(str(stack.pop())[::-1])
+                compiler.pushstr(intstr
+                for char in list(intstr):
+                    stack.append(ord(char))
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
@@ -692,7 +697,7 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "2.1"
+    version = "2.2"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
         print(f"Usage: {sys.argv[0]} [arg] [cmd]")
