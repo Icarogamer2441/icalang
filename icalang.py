@@ -523,6 +523,7 @@ def compile(code):
             elif token == "tostr":
                 intstr = "".join(str(stack.pop())[::-1])
                 compiler.pushstr(intstr)
+                stack.append(0)
                 for char in list(intstr):
                     stack.append(ord(char))
             else:
