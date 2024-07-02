@@ -762,4 +762,4 @@ if __name__ == "__main__":
                     print("Error: where's the file path?")
                     sys.exit(1)
         else:
-            print("Error: use a valid argument! (file with extension .icaro or 'proj' as an argument).")
+            print("Error: use a valid argument! (file with extension .icaro or '-p' or '-r <file>' as an argument).")
