@@ -522,7 +522,7 @@ def compile(code):
                 compiler.closefile()
             elif token == "tostr":
                 intstr = "".join(str(stack.pop())[::-1])
-                compiler.pushstr(intstr
+                compiler.pushstr(intstr)
                 for char in list(intstr):
                     stack.append(ord(char))
             else:
