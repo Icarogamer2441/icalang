@@ -526,6 +526,18 @@ def compile(code):
                 stack.append(0)
                 for char in list(intstr):
                     stack.append(ord(char))
+            elif token == "len":
+                string = []
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    if letter == 0:
+                        break
+                    else:
+                        string.append(chr(letter))
+                string = "".join(string)
+                stack.append(len(string))
+                compiler.push(len(string))
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
