@@ -538,6 +538,11 @@ def compile(code):
                 string = "".join(string)
                 stack.append(len(string))
                 compiler.push(len(string))
+                string = "".join(string[::-1])
+                compiler.pushstr(string)
+                stack.push(0)
+                for char in list(string):
+                    stack.append(ord(char))
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
