@@ -536,13 +536,26 @@ def compile(code):
                     else:
                         string.append(chr(letter))
                 string = "".join(string)
-                stack.append(len(string))
-                compiler.push(len(string))
                 string = "".join(string[::-1])
                 compiler.pushstr(string)
                 stack.push(0)
                 for char in list(string):
                     stack.append(ord(char))
+                string = "".join(string[::-1])
+                stack.append(len(string))
+                compiler.push(len(string))
+            elif token == "toint":
+                string = []
+                while True:
+                    letter = stack.pop()
+                    compiler.pop()
+                    if letter == 0:
+                        break
+                    else:
+                        string.append(chr(letter))
+                stringint = int("".join(string))
+                stack.append(stringint)
+                compiler.push(stringint)
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
@@ -715,7 +728,7 @@ def compile(code):
                     in_def2[0] = False
 
 if __name__ == "__main__":
-    version = "2.2"
+    version = "2.3"
     if len(sys.argv) == 1:
         print(f"Icaro language version: {version}")
         print(f"Usage: {sys.argv[0]} [arg] [cmd]")
