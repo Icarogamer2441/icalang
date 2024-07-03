@@ -31,8 +31,11 @@ end
 fun CompAsciiMsg
     add partnum incpart stop
     partnum "jmp part_" 32 cmpsay tostr cmpsay 10 print
+    partnum "section .data\n ascmsg_" cmpsay tostr cmpsay "db " 32 cmpsay tostr cmpsay
+    partnum ", 0\n" cmpsay
+    "section .text\n" cmpsay
     ":\n" partnum "part_" cmpsay tostr cmpsay cmpsay
-    "mov rax, 1\n mov rdi, 1\n mov rsi, " 32 cmpsay tostr cmpsay 10 print
+    partnum "mov rax, 1\n mov rdi, 1\n mov rsi, ascmsg_" 32 cmpsay tostr cmpsay 10 print
     "mov rdx, 1\n syscall\n" 32 cmpsay
 end
 
