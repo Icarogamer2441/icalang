@@ -20,7 +20,7 @@ fun CompMsg
     add partnum incpart stop
     partnum "jmp part_" 32 cmpsay tostr cmpsay 10 print
     partnum "section .data\n msg_" cmpsay tostr cmpsay 32 print "db '" cmpsay cmpsay "'" cmpsay
-    partnum ", 10, 0\n msglen_" cmpsay tostr cmpsay 32 print partnum "equ $ - msg_" cmpsay tostr cmpsay
+    partnum ", 0\n msglen_" cmpsay tostr cmpsay 32 print partnum "equ $ - msg_" cmpsay tostr cmpsay
     "- 1" 32 cmpsay 10 print
     "section .text\n" cmpsay
     ":\n" partnum "part_" cmpsay tostr cmpsay cmpsay
@@ -28,12 +28,20 @@ fun CompMsg
     partnum "mov rdx, msglen_" 32 cmpsay tostr cmpsay 10 print "syscall\n" 32 cmpsay
 end
 
+fun CompAsciiMsg
+    add partnum incpart stop
+    partnum "jmp part_" 32 cmpsay tostr cmpsay 10 print
+    ":\n" partnum "part_" cmpsay tostr cmpsay cmpsay
+    "mov rax, 1\n mov rdi, 1\n mov rsi, " 32 cmpsay tostr cmpsay 10 print
+    "mov rdx, 1\n syscall\n" 32 cmpsay
+end
+
 fun CompEnd
     "\n mov rax, 60\n mov rdi, 0\n syscall\n" cmpsay
 end
 
 /* how to use: *\
-/* CompStart "my message" CompMsg CompEnd *\
+/* CompStart "my message" CompMsg 10 CompAsciiMsg CompEnd *\
 /* executing: *\
 /* execute your icalang file and use this: *\
 /* ./output > "myfile.asm" *\
