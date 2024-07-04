@@ -21,7 +21,7 @@ fun Errorisint32
 end
 
 fun stdv
-    "Std version: 1.2" prt
+    "Std version: 1.3" prt
 end
 
 fun isint32
