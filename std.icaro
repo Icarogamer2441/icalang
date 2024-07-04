@@ -62,3 +62,7 @@ fun popstr
 	pop
     end
 end
+
+fun dupover
+    swap dup take swap drop
+end
