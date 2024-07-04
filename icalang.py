@@ -234,6 +234,7 @@ def compile(code):
             elif token == "argv0":
                 if len(sys.argv) >= 2:
                     compiler.pushstr("".join(sys.argv[1][::-1]))
+                    stack.append(0)
                     for char in reversed(sys.argv[1]):
                         stack.append(ord(char))
                 else:
@@ -242,6 +243,7 @@ def compile(code):
             elif token == "argv1":
                 if len(sys.argv) >= 3:
                     compiler.pushstr("".join(sys.argv[2][::-1]))
+                    stack.append(0)
                     for char in reversed(sys.argv[2]):
                         stack.append(ord(char))
                 else:
@@ -250,6 +252,7 @@ def compile(code):
             elif token == "argv2":
                 if len(sys.argv) >= 4:
                     compiler.pushstr("".join(sys.argv[3][::-1]))
+                    stack.append(0)
                     for char in reversed(sys.argv[3]):
                         stack.append(ord(char))
                 else:
@@ -258,6 +261,7 @@ def compile(code):
             elif token == "argv3":
                 if len(sys.argv) >= 5:
                     compiler.pushstr("".join(sys.argv[4][::-1]))
+                    stack.append(0)
                     for char in reversed(sys.argv[4]):
                         stack.append(ord(char))
                 else:
