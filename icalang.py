@@ -572,8 +572,8 @@ def compile(code):
                 a = stack.pop()
                 compiler.pop()
                 compiler.pop()
-                stack.append(a / b)
-                compiler.push(a / b)
+                stack.append(a // b)
+                compiler.push(a // b)
             else:
                 print(f"Error: Unknown keyword: '{token}'")
                 sys.exit(1)
