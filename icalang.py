@@ -354,8 +354,8 @@ def compile(code):
                 stack.append(item)
                 compiler.push(item)
             elif token == "swap":
-                item1 = stack.pop()
                 item2 = stack.pop()
+                item1 = stack.pop()
                 compiler.pop()
                 compiler.pop()
                 stack.append(item2)
