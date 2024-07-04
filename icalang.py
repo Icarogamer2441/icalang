@@ -233,7 +233,7 @@ def compile(code):
                 print("", end="")
             elif token == "argv0":
                 if len(sys.argv) >= 2:
-                    compiler.pushstr(join(sys.argv[1][::-1]))
+                    compiler.pushstr("".join(sys.argv[1][::-1]))
                     for char in reversed(sys.argv[1]):
                         stack.append(ord(char))
                 else:
